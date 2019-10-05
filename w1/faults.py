@@ -1,21 +1,21 @@
 import math
 
 
-VALS = [14.85, 14.80, 14.79, 14.84, 14.81]
+PRECISION = 5
+
+VALUES = [14.85, 14.80, 14.79, 14.84, 14.81]
 x0 = 14.80
 ta = 2.570
-n = len(VALS)
-
-PRECISION = 5
+n = len(VALUES)
 
 
 # Среднее значение
-x_ = round(sum(VALS) / n, PRECISION)
+x_ = round(sum(VALUES) / n, PRECISION)
 print('Среднее значение: ', x_)
 
 # Дисперсия
 Ds2 = round(math.sqrt(
-    (sum([(x_ - xi)**2 for xi in VALS]))
+    (sum([(x_ - xi)**2 for xi in VALUES]))
     / (n*(n-1))
 ), PRECISION)
 print('Дисперсия (среднеквадратичная ошибка): ', Ds2)

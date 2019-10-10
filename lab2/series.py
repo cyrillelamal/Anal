@@ -3,12 +3,13 @@ import abc
 import matplotlib.pyplot as plt
 
 
-def sorted_by_keys(dict_: dict):
+def sorted_by_keys(dict_: dict) -> dict:
     """Return sorted by keys copy of the passed dict"""
     return {k: dict_[k] for k in sorted(dict_.keys())}
 
 
 class Interval:
+    """Abstract class representing an interval"""
     PRECISION = 1
 
     def __init__(self, values):
@@ -23,6 +24,8 @@ class Interval:
         ys = self.get_polygon_ys()
         plt.plot(xs, ys)
         plt.title('Полигон')
+        plt.ylabel('Частоты')
+        plt.xlabel('Значения')
         return self
 
     def prepare_histogram(self):
@@ -43,6 +46,7 @@ class Interval:
         ys = self.get_cumulate_ys()
         plt.plot(xs, ys)
         plt.title('Кумулянта')
+        plt.xlabel('Значения')
         return self
 
     def prepare_empiric_dist_func(self):
@@ -55,7 +59,6 @@ class Interval:
 
     @staticmethod
     def show():
-        plt.ylabel('Частоты')
         plt.show()
 
     @abc.abstractmethod
@@ -119,9 +122,9 @@ class Discrete(Interval):
 
     def get_hist_xs(self):
         raise ValueError(
-                        'Гистограмма служит только '
-                        'для представления интервальных '
-                        'вариационных рядов'
+            'Гистограмма служит только '
+            'для представления интервальных '
+            'вариационных рядов'
         )
 
     def get_hist_ys(self):

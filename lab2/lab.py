@@ -1,7 +1,7 @@
 """
 Лабораторные работы
 """
-from .Series import Continuous, Discrete
+from .series import Continuous, Discrete
 
 VALUES1 = [
     103.4, 115.2, 127, 131, 114, 114.1, 119.6, 125.5, 116.9, 118.1, 123.5,
@@ -22,8 +22,9 @@ VALUES2 = {
 
 def task1():
     v1 = Continuous(VALUES1)
-    # v1.prepare_histogram()
-    # v1.show()
+    v1.prepare_polygon()
+    v1.prepare_cumulate()
+    Continuous.show()
 
 
 def task2():

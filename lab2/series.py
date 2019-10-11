@@ -8,9 +8,9 @@ def sorted_by_keys(dict_: dict) -> dict:
     return {k: dict_[k] for k in sorted(dict_.keys())}
 
 
-class Interval:
-    """Abstract class representing an interval"""
-    PRECISION = 1
+class VariationSeries:
+    """Abstract"""
+    PRECISION = 1  # {number},{PRECISION}
 
     def __init__(self, values):
         self._values = values
@@ -18,64 +18,33 @@ class Interval:
         self.max = max(self._values)
         self.min = min(self._values)
 
-    def prepare_polygon(self):
-        """Draw polygon"""
-        xs = self.get_polygon_xs()
-        ys = self.get_polygon_ys()
-        plt.plot(xs, ys)
-        plt.title('Полигон')
-        plt.ylabel('Частоты')
-        plt.xlabel('Значения')
-        return self
-
-    def prepare_histogram(self):
-        """Draw histogram"""
-        xs = self.get_hist_xs()
-        ys = self.get_hist_ys()
-        fig, ax = plt.subplots()
-        ax.bar(xs, ys)
-        ax.set_facecolor('seashell')
-        fig.set_facecolor('floralwhite')
-        fig.set_figwidth(12)  # ширина Figure
-        fig.set_figheight(6)  # высота Figure
-        return self
-
-    def prepare_cumulate(self):
-        """Draw cumulate function"""
-        xs = self.get_cumulate_xs()
-        ys = self.get_cumulate_ys()
-        plt.plot(xs, ys)
-        plt.title('Кумулянта')
-        plt.xlabel('Значения')
-        return self
-
-    def prepare_empiric_dist_func(self):
-        """Draw empiric distribution function"""
-        xs = self.get_empiric_dist_xs()
-        ys = self.get_empiric_dist_ys()
-        plt.plot(xs, ys)
-        plt.title('Эмпирическая функция распределения')
-        return self
-
     @staticmethod
     def show():
         plt.show()
 
-    @abc.abstractmethod
-    def get_polygon_xs(self) -> list:
-        pass
+    def draw_cumulate(self, nrows, ncols, index):
+        xs = self.get_cumulate_xs()
+        ys = self.get_cumulate_ys()
+        plt.subplot(nrows, ncols, index)
+        plt.plot(xs, ys, 'bo--')
+        plt.title('Кумулянта')
+        plt.xlabel('Интервалы')
+        plt.ylabel('Накопленные частоты')
 
-    @abc.abstractmethod
-    def get_polygon_ys(self) -> list:
-        pass
-
-    @abc.abstractmethod
-    def get_hist_xs(self) -> list:
-        pass
-
-    @abc.abstractmethod
-    def get_hist_ys(self) -> list:
-        pass
+    def draw_empiric_dist_func(
+            self, nrows, ncols, index,
+            title='Эмпирическая функция распределения',
+            postfix=''
+    ):
+        xs = self.get_empiric_dist_xs()
+        ys = self.get_empiric_dist_ys()
+        plt.subplot(nrows, ncols, index)
+        plt.plot(xs, ys, 'bo--')
+        if postfix:
+            title += f' {postfix}'
+        plt.title(title)
+        plt.xlabel('Интервалы')
+        plt.ylabel('Накопленные частости')
 
     @abc.abstractmethod
     def get_cumulate_xs(self) -> list:
@@ -94,48 +63,42 @@ class Interval:
         pass
 
 
-class Discrete(Interval):
-    """Discrete interval"""
+class DiscreteVS(VariationSeries):
+    """Discrete variation series"""
     def __init__(self, values):
         # User's input is ready variable series
         if isinstance(values, dict):
-            values = sorted_by_keys(values)
-            self.variable_series = values
-            vals = []
+            self.vs = sorted_by_keys(values)
+            selection = []
             for k, v in values.items():
-                vals.extend([k]*v)
-            values = vals  # self._values (all values)
+                selection.extend([k]*v)
+            values = selection  # self._values (all values)
         # User's input is a list of values
         else:
-            vs = {}
+            self.vs = {}
             for val in sorted(values):
-                vs[val] = vs.get(val, 0) + 1
-            self.variable_series = vs
+                self.vs[val] = self.vs.get(val, 0) + 1
         # Else errors are thrown
-        super(Discrete, self).__init__(values)
+        # Save the list of values
+        super(DiscreteVS, self).__init__(values)
+
+    def draw_polygon(self, nrows, ncols, index):
+        xs = self.get_polygon_xs()
+        ys = self.get_polygon_ys()
+        plt.subplot(nrows, ncols, index)
+        plt.plot(xs, ys, 'bo--')
+        plt.title('Полигон')
+        plt.xlabel('Варианты')
+        plt.ylabel('Частоты')
 
     def get_polygon_xs(self):
-        return list(self.variable_series.keys())  # x(i)
+        return list(self.vs.keys())  # x(i)
 
     def get_polygon_ys(self):
-        return list(self.variable_series.values())  # Frequencies - m(i)
-
-    def get_hist_xs(self):
-        raise ValueError(
-            'Гистограмма служит только '
-            'для представления интервальных '
-            'вариационных рядов'
-        )
-
-    def get_hist_ys(self):
-        raise ValueError(
-            'Гистограмма служит только '
-            'для представления интервальных '
-            'вариационных рядов'
-        )
+        return list(self.vs.values())  # m(i)  (Frequencies)
 
     def get_cumulate_xs(self):  # x(i)
-        keys = list(self.variable_series.keys())
+        keys = list(self.vs.keys())
         last_key = keys[-1]
         last_key += 1
         keys += [last_key]
@@ -144,7 +107,7 @@ class Discrete(Interval):
     def get_cumulate_ys(self):  # m(x(i))
         def y_gen():
             accumulated_sum = 0
-            for m_i in self.variable_series.values():
+            for m_i in self.vs.values():
                 yield accumulated_sum
                 accumulated_sum += m_i
             yield accumulated_sum
@@ -157,14 +120,14 @@ class Discrete(Interval):
         return [m_x / self.n for m_x in self.get_cumulate_ys()]
 
 
-class Continuous(Interval):
+class ContinuousVS(VariationSeries):
     """Continuous interval"""
     def __init__(self, values):
-        super(Continuous, self).__init__(values)
+        super(ContinuousVS, self).__init__(values)
         self.k = math.ceil(1 + 1.4 * math.log(self.n))
         self.delta = (self.max - self.min) / self.k
 
-        p = Interval.PRECISION  # Precision alias
+        p = VariationSeries.PRECISION  # Precision alias
         # INTERVALS
         self.intervals = [
             (round(self.min + bias, p), round(self.min + bias + self.delta, p))
@@ -177,17 +140,19 @@ class Continuous(Interval):
             # Choose the correct interval
             for interval in self.intervals:
                 left, right = interval
-                if left <= val <= right:
+                if left <= val < right or val == self.max:
                     vs[interval] = vs.get(interval, 0) + 1
-        self.variable_series = vs
+        self.vs = vs
 
-    def get_polygon_xs(self):
-        bias = self.delta / 2
-        xs = [interval[0] + bias for interval in self.variable_series.keys()]
-        return xs
-
-    def get_polygon_ys(self):
-        return [y for y in self.variable_series.values()]
+    def draw_hist(self):
+        xs = self.get_hist_xs()
+        ys = self.get_hist_ys()
+        fig, ax = plt.subplots()
+        ax.bar(xs, ys)
+        ax.set_facecolor('seashell')
+        fig.set_facecolor('floralwhite')
+        fig.set_figwidth(12)
+        fig.set_figheight(6)
 
     def get_hist_xs(self):
         x_min = self.intervals[0][0]
@@ -199,7 +164,7 @@ class Continuous(Interval):
         return xs
 
     def get_hist_ys(self):
-        return list(self.variable_series.values())
+        return list(self.vs.values())
 
     def get_cumulate_xs(self):  # a(i)
         xs = [interval[0] for interval in self.intervals] \
@@ -209,7 +174,7 @@ class Continuous(Interval):
     def get_cumulate_ys(self):  # m(a(i))
         def y_gen():
             accumulated_sum = 0
-            for a_i in self.variable_series.values():
+            for a_i in self.vs.values():
                 yield accumulated_sum
                 accumulated_sum += a_i
             yield accumulated_sum

@@ -1,7 +1,6 @@
 """
 Лабораторные работы
 """
-import matplotlib.pyplot as plt
 from .series import ContinuousVS, DiscreteVS, VariationSeries
 
 
@@ -17,13 +16,12 @@ def task1():
         106.5, 112, 120.8, 121.9, 134.2, 115.7, 118.9, 124.5, 111.5, 121, 133,
         116.5, 119, 129, 106.1, 119.8, 133.6, 114.5, 118, 128
     ]
-    v1 = ContinuousVS(values)
-    # Кумулянта
-    v1.draw_cumulate(2, 1, 1)
-    # Эмпирическая функция распределения
-    v1.draw_empiric_dist_func(2, 1, 2, postfix='рабочих')
-    # Гистограма
-    v1.draw_hist()
+    VariationSeries.PRECISION = 2
+
+    v = ContinuousVS(values)
+    v.draw_cumulate(2, 1, 1)
+    v.draw_empiric_dist_func(2, 1, 2, postfix='рабочих')
+    v.draw_hist()
 
     ContinuousVS.show()
 
@@ -32,14 +30,12 @@ def task2():
     values = {
         1: 2, 2: 3, 3: 6, 4: 8, 5: 22, 6: 9
     }
-    v2 = DiscreteVS(values)
+    VariationSeries.PRECISION = 2
 
-    # полигон
-    v2.draw_polygon(3, 1, 1)
-    # Кумулянта
-    v2.draw_cumulate(3, 1, 2)
-    # Эмпирическая функция распределения
-    v2.draw_empiric_dist_func(3, 1, 3)
+    v = DiscreteVS(values)
+    v.draw_polygon(3, 1, 1)
+    v.draw_cumulate(3, 1, 2)
+    v.draw_empiric_dist_func(3, 1, 3)
 
     DiscreteVS.show()
 
@@ -65,13 +61,11 @@ def task3():
             1.05932474, 1.25494818, 1.87487639, 0.74979352
     ]
     VariationSeries.PRECISION = 8
-    v3 = ContinuousVS(values)
-    # Кумулянта
-    v3.draw_cumulate(2, 1, 1)
-    # Эмпирическая функция распределения
-    v3.draw_empiric_dist_func(2, 1, 2)
-    # Гистограма
-    v3.draw_hist()
+
+    v = ContinuousVS(values)
+    v.draw_cumulate(2, 1, 1)
+    v.draw_empiric_dist_func(2, 1, 2)
+    v.draw_hist()
 
     ContinuousVS.show()
 
@@ -82,13 +76,12 @@ def task4():
         3, 4, 4, 2, 5, 2, 3, 3, 4, 4,
         3, 3, 4, 4, 2, 5, 5, 2, 3, 3
     ]
-    v4 = ContinuousVS(values)
-    # Кумулянта
-    v4.draw_cumulate(2, 1, 1)
-    # Эмпирическая функция распределения
-    v4.draw_empiric_dist_func(2, 1, 2, postfix='результатов экзамена')
-    # Гистограма
-    v4.draw_hist()
+    VariationSeries.PRECISION = 2
+
+    v = ContinuousVS(values)
+    v.draw_cumulate(2, 1, 1)
+    v.draw_empiric_dist_func(2, 1, 2, postfix='результатов экзамена')
+    v.draw_hist()
 
     ContinuousVS.show()
 
@@ -99,12 +92,11 @@ def task5():
         15, 15, 14, 13, 16, 16, 12, 11, 13, 14,
         19, 20, 15, 16, 15, 16, 14, 16, 13, 12
     ]
-    v5 = ContinuousVS(values)
-    # Кумулянта
-    v5.draw_cumulate(2, 1, 1)
-    # Эмпирическая функция распределения
-    v5.draw_empiric_dist_func(2, 1, 2, postfix='результатов соревнований')
-    # Гистограма
-    v5.draw_hist()
+    VariationSeries.PRECISION = 2
+
+    v = ContinuousVS(values)
+    v.draw_cumulate(2, 1, 1)
+    v.draw_empiric_dist_func(2, 1, 2, postfix='результатов соревнований')
+    v.draw_hist()
 
     ContinuousVS.show()

@@ -17,8 +17,8 @@ class VariationSeries:
         :param values: all the values that make up the series
         """
         self._vs = None  # Вариационный ряд
-        self._values = sorted(values)
-        self._n = len(values)
+        self._values = sorted(values)  # Все значения ряда
+        self._n = len(values)  # Количество значений в ряду
         self._x_max = max(self._values)
         self._x_min = min(self._values)
 
@@ -27,7 +27,7 @@ class VariationSeries:
         self._acc_frequencies = None  # Накопленная частота - m(x)
         self._acc_rel_frequencies = None  # Накопленная частость w(x)
 
-    def _gen_acc_frequencies(self):
+    def __gen_acc_frequencies(self):
         """Generator"""
         accumulated_sum = 0
         for m_i in self._vs.values():
@@ -37,9 +37,11 @@ class VariationSeries:
 
     @staticmethod
     def show():
+        """Display prepared plots"""
         plt.show()
 
-    def draw_cumulate(self, nrows, ncols, index):
+    def draw_cumulate(self, nrows: int, ncols: int, index: int):
+        """Prepare cumulate function"""
         xs = self.get_cumulate_xs()
         ys = self.get_cumulate_ys()
         plt.subplot(nrows, ncols, index)
@@ -47,12 +49,14 @@ class VariationSeries:
         plt.title('Кумулянта')
         plt.xlabel('Интервалы')
         plt.ylabel('Накопленные частоты')
+        return self
 
     def draw_empiric_dist_func(
-            self, nrows, ncols, index,
+            self, nrows: int, ncols: int, index: int,
             title='Эмпирическая функция распределения',
             postfix=''
     ):
+        """Prepare empiric distinction function"""
         xs = self.get_empiric_dist_xs()
         ys = self.get_empiric_dist_ys()
         plt.subplot(nrows, ncols, index)
@@ -62,6 +66,7 @@ class VariationSeries:
         plt.title(title)
         plt.xlabel('Интервалы')
         plt.ylabel('Накопленные частости')
+        return self
 
     @abc.abstractmethod
     def get_cumulate_xs(self) -> list:
@@ -78,6 +83,9 @@ class VariationSeries:
     @abc.abstractmethod
     def get_empiric_dist_ys(self) -> list:
         pass
+
+    def __str__(self):
+        return f'Вариационный ряд: {self._vs}'
 
 
 class DiscreteVS(VariationSeries):
@@ -103,7 +111,7 @@ class DiscreteVS(VariationSeries):
         self._rel_frequencies = list(map(
             lambda m_i: m_i / self._n, self._var_frequencies
         ))
-        self._acc_frequencies = list(self._gen_acc_frequencies())
+        self._acc_frequencies = list(self.__gen_acc_frequencies())
         self._acc_rel_frequencies = list(map(
             lambda m_x: m_x / self._n, self._acc_frequencies
         ))
@@ -116,7 +124,8 @@ class DiscreteVS(VariationSeries):
         diff = biggest - keys[-2]
         return biggest + diff
 
-    def draw_polygon(self, nrows, ncols, index):
+    def draw_polygon(self, nrows: int, ncols: int, index: int):
+        """Prepare polygon function"""
         xs = self.get_polygon_xs()
         ys = self.get_polygon_ys()
         plt.subplot(nrows, ncols, index)
@@ -124,6 +133,7 @@ class DiscreteVS(VariationSeries):
         plt.title('Полигон')
         plt.xlabel('Варианты')
         plt.ylabel('Частоты')
+        return self
 
     def get_polygon_xs(self):
         return self._variants
@@ -176,7 +186,7 @@ class ContinuousVS(VariationSeries):
         self._rel_frequencies = list(map(
             lambda m_i: m_i / self._n, self._var_frequencies
         ))
-        self._acc_frequencies = list(self._gen_acc_frequencies())
+        self._acc_frequencies = list(self.__gen_acc_frequencies())
         self._acc_rel_frequencies = list(map(
             lambda m_x: m_x / self._n, self._acc_frequencies
         ))
@@ -211,6 +221,7 @@ class ContinuousVS(VariationSeries):
         return vs
 
     def draw_hist(self):
+        """Prepare histogram function"""
         xs = self.get_hist_xs()
         ys = self.get_hist_ys()
         fig, ax = plt.subplots()
@@ -219,6 +230,7 @@ class ContinuousVS(VariationSeries):
         fig.set_facecolor('floralwhite')
         fig.set_figwidth(12)
         fig.set_figheight(6)
+        return self
 
     def get_hist_xs(self):
         bias = self._delta / 2

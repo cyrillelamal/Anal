@@ -37,8 +37,8 @@ def task3():
     VariationSeries.PRECISION = 2
 
     v = ContinuousVS(values)
-    v.draw_cumulate(1, 1, 1)
-    v.draw_hist()
+    v.draw_cumulate(2, 1, 1)
+    v.draw_hist(2, 1, 2)
 
     ContinuousVS.show()
 
@@ -56,8 +56,8 @@ def task4():
     VariationSeries.PRECISION = 2
 
     v = ContinuousVS(values)
-    v.draw_cumulate(2, 1, 1)
-    v.draw_empiric_dist_func(2, 1, 2)
-    v.draw_hist()
+    v.draw_cumulate(3, 1, 1)
+    v.draw_empiric_dist_func(3, 1, 2)
+    v.draw_hist(3, 1, 3)
 
     ContinuousVS.show()

@@ -1,5 +1,5 @@
 """
-Лабораторные работы
+Лабораторная работа 4
 """
 from .series import ContinuousVS, DiscreteVS, VariationSeries
 
@@ -19,9 +19,9 @@ def task1():
     VariationSeries.PRECISION = 2
 
     v = ContinuousVS(values)
-    v.draw_cumulate(2, 1, 1)
-    v.draw_empiric_dist_func(2, 1, 2, postfix='рабочих')
-    v.draw_hist()
+    v.draw_cumulate(3, 1, 1)
+    v.draw_empiric_dist_func(3, 1, 2, postfix='рабочих')
+    v.draw_hist(3, 1, 3)
 
     ContinuousVS.show()
 
@@ -63,9 +63,9 @@ def task3():
     VariationSeries.PRECISION = 8
 
     v = ContinuousVS(values)
-    v.draw_cumulate(2, 1, 1)
-    v.draw_empiric_dist_func(2, 1, 2)
-    v.draw_hist()
+    v.draw_cumulate(3, 1, 1)
+    v.draw_empiric_dist_func(3, 1, 2)
+    v.draw_hist(3, 1, 3)
 
     ContinuousVS.show()
 
@@ -79,9 +79,9 @@ def task4():
     VariationSeries.PRECISION = 2
 
     v = ContinuousVS(values)
-    v.draw_cumulate(2, 1, 1)
-    v.draw_empiric_dist_func(2, 1, 2, postfix='результатов экзамена')
-    v.draw_hist()
+    v.draw_cumulate(3, 1, 1)
+    v.draw_empiric_dist_func(3, 1, 2, postfix='результатов экзамена')
+    v.draw_hist(3, 1, 3)
 
     ContinuousVS.show()
 
@@ -95,8 +95,8 @@ def task5():
     VariationSeries.PRECISION = 2
 
     v = ContinuousVS(values)
-    v.draw_cumulate(2, 1, 1)
-    v.draw_empiric_dist_func(2, 1, 2, postfix='результатов соревнований')
-    v.draw_hist()
+    v.draw_cumulate(3, 1, 1)
+    v.draw_empiric_dist_func(3, 1, 2, postfix='результатов соревнований')
+    v.draw_hist(3, 1, 3)
 
     ContinuousVS.show()

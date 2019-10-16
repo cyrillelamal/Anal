@@ -27,7 +27,7 @@ class VariationSeries:
         self._acc_frequencies = None  # Накопленная частота - m(x)
         self._acc_rel_frequencies = None  # Накопленная частость w(x)
 
-    def __gen_acc_frequencies(self):
+    def _gen_acc_frequencies(self):
         """Generator"""
         accumulated_sum = 0
         for m_i in self._vs.values():
@@ -45,7 +45,7 @@ class VariationSeries:
         xs = self.get_cumulate_xs()
         ys = self.get_cumulate_ys()
         plt.subplot(nrows, ncols, index)
-        plt.plot(xs, ys, 'bo--')
+        plt.plot(xs, ys, 'b')
         plt.title('Кумулянта')
         plt.xlabel('Интервалы')
         plt.ylabel('Накопленные частоты')
@@ -60,7 +60,7 @@ class VariationSeries:
         xs = self.get_empiric_dist_xs()
         ys = self.get_empiric_dist_ys()
         plt.subplot(nrows, ncols, index)
-        plt.plot(xs, ys, 'bo--')
+        plt.plot(xs, ys, 'b')
         if postfix:
             title += f' {postfix}'
         plt.title(title)
@@ -111,7 +111,7 @@ class DiscreteVS(VariationSeries):
         self._rel_frequencies = list(map(
             lambda m_i: m_i / self._n, self._var_frequencies
         ))
-        self._acc_frequencies = list(self.__gen_acc_frequencies())
+        self._acc_frequencies = list(self._gen_acc_frequencies())
         self._acc_rel_frequencies = list(map(
             lambda m_x: m_x / self._n, self._acc_frequencies
         ))
@@ -129,7 +129,7 @@ class DiscreteVS(VariationSeries):
         xs = self.get_polygon_xs()
         ys = self.get_polygon_ys()
         plt.subplot(nrows, ncols, index)
-        plt.plot(xs, ys, 'bo--')
+        plt.plot(xs, ys, 'b')
         plt.title('Полигон')
         plt.xlabel('Варианты')
         plt.ylabel('Частоты')
@@ -186,7 +186,7 @@ class ContinuousVS(VariationSeries):
         self._rel_frequencies = list(map(
             lambda m_i: m_i / self._n, self._var_frequencies
         ))
-        self._acc_frequencies = list(self.__gen_acc_frequencies())
+        self._acc_frequencies = list(self._gen_acc_frequencies())
         self._acc_rel_frequencies = list(map(
             lambda m_x: m_x / self._n, self._acc_frequencies
         ))
@@ -220,25 +220,27 @@ class ContinuousVS(VariationSeries):
                     break
         return vs
 
-    def draw_hist(self):
+    def draw_hist(self, nrows, ncols, index):
         """Prepare histogram function"""
         xs = self.get_hist_xs()
         ys = self.get_hist_ys()
-        fig, ax = plt.subplots()
-        ax.bar(xs, ys)
-        ax.set_facecolor('seashell')
-        fig.set_facecolor('floralwhite')
-        fig.set_figwidth(12)
-        fig.set_figheight(6)
+        plt.subplot(nrows, ncols, index)
+        plt.plot(xs, ys, 'b')
+        plt.xlabel('Интервалы')
+        plt.ylabel('Частоты')
         return self
 
     def get_hist_xs(self):
-        bias = self._delta / 2
-        xs = [interval[0] + bias for interval in self._vs.keys()]
+        xs = []
+        for left, right in (interval for interval in self._vs.keys()):
+            xs += [left, right]
         return xs
 
     def get_hist_ys(self):
-        return self._var_frequencies
+        ys = []
+        for y in self._var_frequencies:
+            ys += [y, y]
+        return ys
 
     def get_cumulate_xs(self):  # a(i)
         xs = [interval[0] for interval in self._vs.keys()] + [self._intervals[-1][1]]

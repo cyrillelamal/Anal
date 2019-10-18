@@ -12,3 +12,4 @@ t.task1()
 t.task2()
 t.task3()
 t.task4()
+ц

@@ -35,6 +35,18 @@ class VariationSeries:
             accumulated_sum += m_i
         yield accumulated_sum
 
+    @property
+    def vs(self) -> dict:
+        return self._vs
+
+    @property
+    def n(self) -> int:
+        return self._n
+
+    @property
+    def values(self) -> list:
+        return self._values
+
     @staticmethod
     def show():
         """Display prepared plots"""

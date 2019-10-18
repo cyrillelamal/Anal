@@ -44,3 +44,7 @@ def task2():
         idx = v.n / 2
     mediana = v.values[idx]
     print(f'Медиана: {mediana}')
+
+
+def task3():
+    pass

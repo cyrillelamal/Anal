@@ -52,6 +52,24 @@ class VariationSeries:
         """Display prepared plots"""
         plt.show()
 
+    def count_median(self):
+        n = self.n
+        values = self.values
+
+        idx = n // 2
+        if n % 2 == 0:  # choose one
+            idx -= 1
+        return values[idx]
+
+    def count_mode(self):
+        items = list(self._vs.items())
+        mode_val, mode_reps = items[0]
+        for val, reps in items:
+            if mode_reps < reps:
+                mode_val = val
+                mode_reps = reps
+        return mode_val
+
     def draw_cumulate(self, nrows: int, ncols: int, index: int):
         """Prepare cumulate function"""
         xs = self.get_cumulate_xs()

@@ -1,7 +1,7 @@
 import math
 from functools import reduce
 
-from lab2.series import ContinuousVS
+from lab2.series import ContinuousVS, DiscreteVS
 
 
 PRECISION = 2
@@ -18,9 +18,13 @@ VALUES1 = [
         106.5, 112, 120.8, 121.9, 134.2, 115.7, 118.9, 124.5, 111.5, 121, 133,
         116.5, 119, 129, 106.1, 119.8, 133.6, 114.5, 118, 128
 ]
+VALUES2 = {
+        1: 2, 2: 3, 3: 6, 4: 8, 5: 22, 6: 9
+}
 
 
 def task1():
+    ContinuousVS.PRECISION = 2
     v = ContinuousVS(VALUES1)
 
     def prod_gen():
@@ -34,40 +38,22 @@ def task1():
 
 
 def task2():
-    # TODO: медиана - по кумулянте, не по гистограме
-    ContinuousVS.PRECISION = 2
-    v = ContinuousVS(VALUES1)
-    v.draw_hist(1, 1, 1)
-    ContinuousVS.show()
-<<<<<<< HEAD
-    if v.n % 2 == 0:
-        # take the middle
-        idx = v.n // 2
-    else:
-        idx = v.n / 2
-    mediana = v.values[idx]
-    print(f'Медиана: {mediana}')
-
-
-def task3():
-    pass
-=======
-
-    idx = v.n // 2 if v.n % 2 == 0 else v.n / 2
-    median = v.values[idx]
-    print(f'Медиана: {median}')
+    DiscreteVS.PRECISION = 2
+    v = DiscreteVS(VALUES2)
+    print(f'2. Медиана (перпендикуляр): {v.count_median()}')
 
 
 def task3():
     v = ContinuousVS(VALUES1)
-    idx = v.n // 2 if v.n % 2 == 0 else v.n / 2
-    median = v.values[idx]
-    print(f'Расчитанная медиана: {median}')
+    print(f'3. Медиана (перпендикуляр): {v.count_median()}')
 
-    ys = v.get_cumulate_ys()
-    xs = v.get_cumulate_xs()
-    y_mid = (max(ys) + min(ys)) / 2
-    print(xs, ys)
-    # v.draw_cumulate(1, 1, 1)
-    # ContinuousVS.show()
->>>>>>> 1eee339c8348df5c5016230af1087e5ef76dcd52
+
+def task4():
+    v = DiscreteVS(VALUES2)
+    print(f'4. Мода (пик): {v.count_mode()}')
+    print(f'4. Медиана (перпендикуляр): {v.count_median()}')
+
+
+def task5():
+    v = ContinuousVS(VALUES1)
+    print(f'5. Мода (пик): {v.count_mode()}')

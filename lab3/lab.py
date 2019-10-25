@@ -1,6 +1,3 @@
-import math
-from functools import reduce
-
 from lab2.series import ContinuousVS, DiscreteVS
 
 
@@ -34,7 +31,7 @@ def task1():
             yield x_i * n_i
 
     x_ = round(sum(prod_gen()) / v.n, PRECISION)
-    print(f'Средняя выработка рабочих: {x_}')
+    print(f'1. Средняя выработка рабочих: {x_}')
 
 
 def task2():

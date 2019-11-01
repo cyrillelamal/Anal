@@ -1,7 +1,15 @@
 import math
 
 
-def count_faults(values, precision, x0, ta):
+def count_errors(values, precision, x0, ta):
+    """
+    Count errors of the values series
+    :param values: list of obtained values
+    :param precision: number of decimals after semicolon
+    :param x0: x zeroes
+    :param ta: student's coefficient
+    :return: dict with counted parameters
+    """
     print('x0: {}'.format(x0))
     n = len(values)
     
@@ -25,5 +33,14 @@ def count_faults(values, precision, x0, ta):
     print('Абсолютная погрешность: x={0}±{1}'.format(x_, dx))
     
     # Относительная погрешность
-    dx = round(dx / x_ * 100, 2)
-    print('Относительная погрешность: {}%'.format(dx))
+    rdx = round(dx / x_ * 100, 2)
+    print('Относительная погрешность: {}%'.format(rdx))
+    result = {
+        'n': n,
+        'x_': x_,
+        'ds2': ds2,
+        'ds': ds,
+        'dx': dx,
+        'rdx': rdx
+    }
+    return

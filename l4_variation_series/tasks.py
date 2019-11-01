@@ -1,14 +1,14 @@
 """
 Задания к лабораторной работе 4
 """
-from .series import ContinuousVS, DiscreteVS, VariationSeries
+from variation_series import ContinuousVS, DiscreteVS
 
 
 def task1():
     values = [
         4, 2, 4, 6, 5, 6, 4, 1, 3, 1, 2, 5, 2, 6, 3, 1, 2, 3, 4, 5, 4, 6, 2, 3, 4
     ]
-    VariationSeries.PRECISION = 2
+    DiscreteVS.PRECISION = 2
 
     v = DiscreteVS(values)
     v.draw_polygon(3, 1, 1)
@@ -22,7 +22,7 @@ def task2():
     values = [
         60, 25, 12, 10, 68, 35, 2, 17, 51, 9, 3, 130, 24, 85, 100, 152, 6, 18, 7, 42
     ]
-    VariationSeries.PRECISION = 2
+    ContinuousVS.PRECISION = 2
 
     v = ContinuousVS(values)
 
@@ -34,7 +34,7 @@ def task3():
         (0, 5*10**3): 4, (5*10**3, 7*10**3): 12,
         (7*10**3, 10**4): 8, (10**4, 1.5*10**4): 6
     }
-    VariationSeries.PRECISION = 2
+    ContinuousVS.PRECISION = 2
 
     v = ContinuousVS(values)
     v.draw_cumulate(2, 1, 1)
@@ -53,7 +53,7 @@ def task4():
         14.54, 14.58, 14.48, 14.37, 14.38, 14.51, 14.36, 14.15,
         14.24, 14.32
     ]
-    VariationSeries.PRECISION = 2
+    ContinuousVS.PRECISION = 2
 
     v = ContinuousVS(values)
     v.draw_cumulate(3, 1, 1)

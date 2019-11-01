@@ -138,13 +138,13 @@ class DiscreteVS(VariationSeries):
 
         self._variants = list(self._vs.keys())
         self._var_frequencies = list(self._vs.values())
-        self._rel_frequencies = list(map(
-            lambda m_i: m_i / self._n, self._var_frequencies
-        ))
+        self._rel_frequencies = [
+            m_i / self.n for m_i in self._var_frequencies
+        ]
         self._acc_frequencies = list(self._gen_acc_frequencies())
-        self._acc_rel_frequencies = list(map(
-            lambda m_x: m_x / self._n, self._acc_frequencies
-        ))
+        self._acc_rel_frequencies = [
+            m_x / self.n for m_x in self._acc_frequencies
+        ]
 
         self._x = self.__find_next_x()  # Следующий x
 
@@ -213,17 +213,17 @@ class ContinuousVS(VariationSeries):
 
         # self._variants = self._intervals  # Here intervals
         self._var_frequencies = list(self._vs.values())
-        self._rel_frequencies = list(map(
-            lambda m_i: m_i / self._n, self._var_frequencies
-        ))
+        self._rel_frequencies = [
+            m_i / self._n for m_i in self._var_frequencies
+        ]
         self._acc_frequencies = list(self._gen_acc_frequencies())
-        self._acc_rel_frequencies = list(map(
-            lambda m_x: m_x / self._n, self._acc_frequencies
-        ))
+        self._acc_rel_frequencies = [
+            m_x / self._n for m_x in self._acc_frequencies
+        ]
 
     def __make_intervals(self) -> list:
         """Return list of tuples intervals"""
-        p = VariationSeries.PRECISION  # Precision
+        p = ContinuousVS.PRECISION  # Precision
         x_start = self._x_min  # - self._delta / 2  # x(нач)
         x_end = self._x_max + self._delta / 2  # Catch the biggest value
         
@@ -262,7 +262,7 @@ class ContinuousVS(VariationSeries):
 
     def get_hist_xs(self):
         xs = []
-        for left, right in (interval for interval in self._vs.keys()):
+        for left, right in (interval for interval in self.vs.keys()):
             xs += [left, right]
         return xs
 

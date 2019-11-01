@@ -1,4 +1,4 @@
-from lab2.series import ContinuousVS, DiscreteVS
+from variation_series import ContinuousVS, DiscreteVS
 
 
 PRECISION = 2

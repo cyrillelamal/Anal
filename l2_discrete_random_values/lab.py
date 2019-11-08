@@ -2,8 +2,8 @@ import math
 import plotly.graph_objects as go
 
 
-def expected_value(x: list, p: list, x2=False) -> float:
-    if x2:  # Square
+def expected_value(x: list, p: list, square=False) -> float:
+    if square:  # Square
         x = [x_i*x_i for x_i in x]
     m_x = sum((x_i * p_i for x_i, p_i in zip(x, p)))
     return m_x
@@ -51,11 +51,37 @@ def task2():
 
     t = sum((n for n, _ in prizes))  # Всего призов
 
-    x = [x_i for _, x_i in prizes]  # Возможные значения
     p = [p_i / t for p_i, _ in prizes]  # Вероятности
+    x = [x_i for _, x_i in prizes]  # Возможные значения
+
     m_x = expected_value(x, p)
     d = standart_deviation(x, p)
 
     price = (m_x + d) / n
     print(f'2.\n'
+          f'Математическое ожидание: {m_x}\n'
           f'Стоимость билета: {price}')
+
+
+def task3():
+    x = [2, 4, 7, 10, 12]
+    p = [0.1, 0.2, 0.4, 0.2, 0.1]
+
+    m_x = expected_value(x, p)
+    d_x = dispersion(x, p)
+    print(f'3.\n'
+          f'Математическое ожидание: {m_x}\n'
+          f'Дисперсия: {d_x}')
+
+
+def task4():
+    x = [2, 4, 5, 6, 8, 9]
+    p = [0.2, 0.25, 0.3, 0.1, 0.1, 0.05]
+
+    m_x = expected_value(x, p)
+    d_x = dispersion(x, p)
+    d = standart_deviation(x, p)
+    print(f'4.\n'
+          f'Математическое ожидание: {m_x}\n'
+          f'Дисперсия: {d_x}\n'
+          f'СКО: {d}')

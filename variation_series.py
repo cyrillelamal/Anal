@@ -98,6 +98,14 @@ class VariationSeries:
         plt.ylabel('Накопленные частости')
         return self
 
+    @property
+    def acc_frequencies(self):
+        return self._acc_frequencies
+
+    @property
+    def acc_rel_frequencies(self):
+        return self._acc_rel_frequencies
+
     @abc.abstractmethod
     def get_cumulate_xs(self) -> list:
         pass

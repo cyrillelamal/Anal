@@ -1,4 +1,3 @@
-import math
 import plotly.graph_objects as go
 
 
@@ -68,4 +67,52 @@ def task1():
 
 
 def task2():
-    pass
+    data = [
+        2, 4, 5, 3, 4, 6, 7, 4, 5, 3, 3, 4, 2, 6, 5, 4, 7, 2, 3, 4,
+
+        4, 5, 4, 3, 4, 6, 6, 5, 2, 3, 4, 3, 5, 6, 7, 2, 4, 3, 4, 5,
+
+        4, 6, 7, 2, 5, 3, 5, 4, 3, 7, 2, 4, 3, 4, 5, 4, 3, 2, 6, 7,
+
+        6, 4, 3, 2, 3, 4, 5, 4, 3, 5, 4, 3, 2, 6, 4, 5, 7, 5, 4, 3,
+
+        4, 5, 7, 4, 3, 4, 5, 6, 5, 3, 4, 2, 2, 4, 3, 7, 5, 6, 4, 5
+    ]
+
+    vs = DiscreteVS(data)
+
+    acc_frequencies = vs.acc_frequencies
+    acc_rel_frequencies = vs.acc_rel_frequencies
+
+    x = list(vs.vs.keys())
+    y = list(vs.vs.values())
+
+    mean = round(sum(x * y for x, y in vs.vs.items()) / vs.n)
+    mode = vs.count_mode()
+    median = vs.count_median()
+
+    dispersion = count_dispersion(vs.values)
+    sd = count_standard_deviation(vs.values)
+
+    print(f'2.\n'
+          f'Значения (Число производственных подразделений): {x}\n'
+          f'Накопленные частоты: {acc_frequencies}\n'
+          f'Накопленные частости: {acc_rel_frequencies}\n'
+          f'Среднее число производственных подразделений: {mean}\n'
+          f'Мода: {mode}\n'
+          f'Медиана: {median}\n'
+          f'Дисперсия: {dispersion}\n'
+          f'Стандартное отклонение {sd}')
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=x, y=y,
+        mode='lines',
+        name='Распределение рабочих по разрядам',
+    ))
+    fig.update_layout(
+        title='Распределение рабочих по разрядам (Полигон частот)',
+        xaxis_title='Разряды',
+        yaxis_title='Частоты'
+    )
+    fig.show()

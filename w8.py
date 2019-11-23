@@ -1,4 +1,4 @@
-from l6_hypothesis_testing import lab
+from l8_hypothesis_testing import lab
 
 
 lab.task1()

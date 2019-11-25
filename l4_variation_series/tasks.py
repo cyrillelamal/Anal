@@ -11,11 +11,9 @@ def task1():
     DiscreteVS.PRECISION = 2
 
     v = DiscreteVS(values)
-    v.draw_polygon(3, 1, 1)
-    v.draw_cumulate(3, 1, 2)
-    v.draw_empiric_dist_func(3, 1, 3)
-
-    DiscreteVS.show()
+    v.draw_polygon()
+    v.draw_cumulate().show()
+    v.draw_empiric_dist_func().show()
 
 
 def task2():
@@ -37,10 +35,9 @@ def task3():
     ContinuousVS.PRECISION = 2
 
     v = ContinuousVS(values)
-    v.draw_cumulate(2, 1, 1)
-    v.draw_hist(2, 1, 2)
 
-    ContinuousVS.show()
+    v.draw_cumulate().show()
+    v.draw_hist().show()
 
 
 def task4():
@@ -56,8 +53,7 @@ def task4():
     ContinuousVS.PRECISION = 2
 
     v = ContinuousVS(values)
-    v.draw_cumulate(3, 1, 1)
-    v.draw_empiric_dist_func(3, 1, 2)
-    v.draw_hist(3, 1, 3)
 
-    ContinuousVS.show()
+    v.draw_cumulate().show()
+    v.draw_empiric_dist_func().show()
+    v.draw_hist()

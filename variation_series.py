@@ -1,6 +1,7 @@
 import math
 import abc
-import matplotlib.pyplot as plt
+# TODO: Refactor with plotly
+import plotly.graph_objects as go
 
 
 def sorted_by_keys(dict_: dict) -> dict:
@@ -16,6 +17,8 @@ class VariationSeries:
         """
         :param values: all the values that make up the series
         """
+        self.figure = None  # Plotly figure
+
         self._vs = None  # Вариационный ряд
         self._values = sorted(values)  # Все значения ряда
         self._n = len(values)  # Количество значений в ряду
@@ -47,10 +50,10 @@ class VariationSeries:
     def values(self) -> list:
         return self._values
 
-    @staticmethod
-    def show():
+    def show(self):
         """Display prepared plots"""
-        plt.show()
+        self.figure.show()
+        self.figure = None
 
     def count_median(self):
         n = self.n
@@ -70,32 +73,36 @@ class VariationSeries:
                 mode_reps = reps
         return mode_val
 
-    def draw_cumulate(self, nrows: int, ncols: int, index: int):
+    def draw_cumulate(self):
         """Prepare cumulate function"""
-        xs = self.get_cumulate_xs()
-        ys = self.get_cumulate_ys()
-        plt.subplot(nrows, ncols, index)
-        plt.plot(xs, ys, 'b')
-        plt.title('Кумулянта')
-        plt.xlabel('Интервалы')
-        plt.ylabel('Накопленные частоты')
+        fig = go.Figure() if self.figure is None else self.figure
+
+        x = self.get_cumulate_xs()
+        y = self.get_cumulate_ys()
+
+        fig.add_trace(go.Scatter(x=x, y=y,
+                                 mode='lines',
+                                 name='Кумулянта'))
+        fig.update_layout(title='Кумулянта')
+        self.figure = fig
+
         return self
 
-    def draw_empiric_dist_func(
-            self, nrows: int, ncols: int, index: int,
-            title='Эмпирическая функция распределения',
-            postfix=''
-    ):
+    def draw_empiric_dist_func(self):
         """Prepare empiric distinction function"""
-        xs = self.get_empiric_dist_xs()
-        ys = self.get_empiric_dist_ys()
-        plt.subplot(nrows, ncols, index)
-        plt.plot(xs, ys, 'b')
-        if postfix:
-            title += f' {postfix}'
-        plt.title(title)
-        plt.xlabel('Интервалы')
-        plt.ylabel('Накопленные частости')
+        fig = go.Figure() if self.figure is None else self.figure
+
+        x = self.get_empiric_dist_xs()
+        y = self.get_empiric_dist_ys()
+
+        fig.add_trace(go.Scatter(x=x, y=y,
+                                 mode='lines',
+                                 name='Эмпирическая функция распределения'))
+        # 'Интервалы'
+        # 'Накопленные частости'
+        fig.update_layout(title='Эмпирическая функция распределения')
+        self.figure = fig
+
         return self
 
     @property
@@ -128,6 +135,7 @@ class VariationSeries:
 
 class DiscreteVS(VariationSeries):
     """Discrete variation series"""
+
     def __init__(self, values):
         # User's input is a ready variable series: build the list of values
         if isinstance(values, dict):
@@ -162,15 +170,25 @@ class DiscreteVS(VariationSeries):
         diff = biggest - keys[-2]
         return biggest + diff
 
-    def draw_polygon(self, nrows: int, ncols: int, index: int):
+    def draw_polygon(self,
+                     name='Полигон', title='Полигон',
+                     x_title='Значения', y_title='Частоты'
+                     ):
         """Prepare polygon function"""
-        xs = self.get_polygon_xs()
-        ys = self.get_polygon_ys()
-        plt.subplot(nrows, ncols, index)
-        plt.plot(xs, ys, 'b')
-        plt.title('Полигон')
-        plt.xlabel('Варианты')
-        plt.ylabel('Частоты')
+        x = self.get_polygon_xs()
+        y = self.get_polygon_ys()
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=x, y=y,
+                                 mode='lines',
+                                 name=name
+                                 ))
+        fig.update_layout(
+            title=title,
+            xaxis_title=x_title,
+            yaxis_title=y_title
+        )
+        fig.show()
         return self
 
     def get_polygon_xs(self):
@@ -194,6 +212,7 @@ class DiscreteVS(VariationSeries):
 
 class ContinuousVS(VariationSeries):
     """Continuous interval"""
+
     def __init__(self, values):
         # User's input is a dict with intervals
         if isinstance(values, dict):
@@ -208,6 +227,8 @@ class ContinuousVS(VariationSeries):
 
             self._k = math.ceil(1 + 1.4 * math.log(self._n))  # Количество интервалов
             self._delta = (self._x_max - self._x_min) / self._k  # Длина интервала
+
+            self.figure = None
 
         # User's input is a list of values
         else:
@@ -234,7 +255,7 @@ class ContinuousVS(VariationSeries):
         p = ContinuousVS.PRECISION  # Precision
         x_start = self._x_min  # - self._delta / 2  # x(нач)
         x_end = self._x_max + self._delta / 2  # Catch the biggest value
-        
+
         intervals = []
         for i in range(self._k):  # Number of interval
             bias = i * self._delta
@@ -258,14 +279,17 @@ class ContinuousVS(VariationSeries):
                     break
         return vs
 
-    def draw_hist(self, nrows, ncols, index):
+    def draw_hist(self, title='Гистограмма'):
         """Prepare histogram function"""
-        xs = self.get_hist_xs()
-        ys = self.get_hist_ys()
-        plt.subplot(nrows, ncols, index)
-        plt.plot(xs, ys, 'b')
-        plt.xlabel('Интервалы')
-        plt.ylabel('Частоты')
+        x = self.get_hist_xs()
+        y = self.get_hist_ys()
+
+        fig = go.Figure(
+            [go.Bar(x=x, y=y)]
+        )
+        fig.update_layout(title=title)
+        fig.show()
+
         return self
 
     def get_hist_xs(self):

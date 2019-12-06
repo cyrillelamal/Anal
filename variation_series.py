@@ -1,6 +1,5 @@
 import math
 import abc
-# TODO: Refactor with plotly
 import plotly.graph_objects as go
 
 

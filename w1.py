@@ -1,3 +1,6 @@
+"""
+Классификация погрешностей измерения
+"""
 from l1_measurement_errors.errors import count_errors
 
 

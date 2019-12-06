@@ -1,3 +1,6 @@
+"""
+Числовые характеристики вариационных рядов
+"""
 from l5_variation_series_characteristics import lab_indicators_of_variation as indicators
 from l5_variation_series_characteristics import lab_middle_values as middle
 

@@ -1,3 +1,6 @@
+"""
+Вариационный ряд
+"""
 from l4_variation_series import lab
 from l4_variation_series import tasks as t
 

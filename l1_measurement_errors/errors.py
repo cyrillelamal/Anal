@@ -1,7 +1,7 @@
 import math
 
 
-def count_errors(values, precision, x0, ta):
+def count_errors(values: list, precision, x0, ta) -> dict:
     """
     Count errors of the values series
     :param values: list of obtained values
@@ -10,31 +10,31 @@ def count_errors(values, precision, x0, ta):
     :param ta: student's coefficient
     :return: dict with counted parameters
     """
-    print('x0: {}'.format(x0))
+    print(f'x0: {x0}')
     n = len(values)
     
     # Среднее значение
     x_ = round(sum(values) / n, precision)
-    print('Среднее значение: {}'.format(x_))
-    
+    print(f'Среднее значение: {x_}')
+
     # Дисперсия
     ds2 = round(math.sqrt(
-        (sum([(x_ - xi)**2 for xi in values]))
+        (sum(((x_ - xi)**2 for xi in values)))
         / (n*(n-1))
     ), precision)
-    print('Дисперсия (среднеквадратичная ошибка): {}'.format(ds2))
+    print(f'Дисперсия (среднеквадратичная ошибка): {ds2}')
     
     # Стандартное отклонение
     ds = round(math.sqrt(ds2**2), precision)
-    print('Стандартное отклонение: {}'.format(ds))
+    print(f'Стандартное отклонение: {ds}')
     
     # Абсолютная погрешность (Доверительный интервал)
     dx = round(ta * ds, precision)
-    print('Абсолютная погрешность: x={0}±{1}'.format(x_, dx))
+    print(f'Абсолютная погрешность: x={x_}±{dx}')
     
     # Относительная погрешность
     rdx = round(dx / x_ * 100, 2)
-    print('Относительная погрешность: {}%'.format(rdx))
+    print(f'Относительная погрешность: {rdx}%')
     result = {
         'n': n,
         'x_': x_,
@@ -43,4 +43,4 @@ def count_errors(values, precision, x0, ta):
         'dx': dx,
         'rdx': rdx
     }
-    return
+    return result

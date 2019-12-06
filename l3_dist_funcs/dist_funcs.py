@@ -2,20 +2,17 @@ import math
 
 
 def task1():
+    a = 1
+    b = 2
+
+    # Интегральная функция распределения
     def f_int(x):
         if x <= 1:
             return 0
         elif x > 3:
             return 1
         else:
-            return x * x / 8 - 1 / 8
-
-    a = 1
-    b = 2
-
-    # Вероятность попадания в интервал (1; 2)
-    # P(1 < x < 2)
-    p = f_int(b) - f_int(a)
+            return x*x/8 - 1/8
 
     # Дифференциальная функция распределения
     def f_dif(x):
@@ -35,6 +32,10 @@ def task1():
     # Среднее квадратичное отклонение
     delta_x = math.sqrt(dx)
 
+    # Вероятность попадания в интервал (1; 2)
+    # P(1 < x < 2)
+    p = f_int(b) - f_int(a)
+
     print(f'1.\n'
           f'Математическое ожидание: {mx}\n'
           f'Дисперсия: {dx}\n'
@@ -43,6 +44,10 @@ def task1():
 
 
 def task2():
+    a = 0
+    b = 1
+
+    # Интегральная функция случайной величины x
     def f(x):
         if x <= 0:
             return 0
@@ -51,8 +56,6 @@ def task2():
         else:
             return x ** 6 / 4
 
-    a = 0
-    b = 1
     k = 2  # Кол-во наступлений события
     n = 6  # Кол-во испытаний
 
@@ -69,6 +72,10 @@ def task2():
 
 
 def task3():
+    a = -0.5
+    b = 1
+
+    # Плотность распределения вероятностей
     def f(x):
         if x < -1 or x > 1:
             return 0
@@ -84,9 +91,6 @@ def task3():
             return x**2 / 2 + x
         else:
             return x - x**2 / 2
-
-    a = -0.5
-    b = 1
 
     p = f_int(b) - f_int(a)
     print(f'3.\n'

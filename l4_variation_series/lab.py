@@ -1,7 +1,7 @@
 """
 Лабораторная работа 4
 """
-from variation_series import ContinuousVS, DiscreteVS
+from varseries import ContinuousVS, DiscreteVS
 
 
 def task1():
@@ -16,24 +16,20 @@ def task1():
         106.5, 112, 120.8, 121.9, 134.2, 115.7, 118.9, 124.5, 111.5, 121, 133,
         116.5, 119, 129, 106.1, 119.8, 133.6, 114.5, 118, 128
     ]
-    ContinuousVS.PRECISION = 2
-
     v = ContinuousVS(values)
-    v.draw_cumulate().show()
-    v.draw_empiric_dist_func().show()
-    v.draw_hist()
+    v.draw_cumulate()\
+        .draw_empiric_dist_func()\
+        .draw_hist()
 
 
 def task2():
     values = {
         1: 2, 2: 3, 3: 6, 4: 8, 5: 22, 6: 9
     }
-    DiscreteVS.PRECISION = 2
-
     v = DiscreteVS(values)
-    v.draw_polygon()
-    v.draw_cumulate().show()
-    v.draw_empiric_dist_func().show()
+    v.draw_polygon()\
+        .draw_cumulate()\
+        .draw_empiric_dist_func()
 
 
 def task3():
@@ -56,12 +52,10 @@ def task3():
             0.50409524, 0.68639066, 0.82355366, 0.69646316, 0.65239474, 0.72192621,
             1.05932474, 1.25494818, 1.87487639, 0.74979352
     ]
-    ContinuousVS.PRECISION = 8
-
     v = ContinuousVS(values)
-    v.draw_cumulate().show()
-    v.draw_empiric_dist_func().show()
-    v.draw_hist()
+    v.draw_cumulate()\
+        .draw_empiric_dist_func()\
+        .draw_hist()
 
 
 def task4():
@@ -70,12 +64,10 @@ def task4():
         3, 4, 4, 2, 5, 2, 3, 3, 4, 4,
         3, 3, 4, 4, 2, 5, 5, 2, 3, 3
     ]
-    ContinuousVS.PRECISION = 2
-
     v = ContinuousVS(values)
-    v.draw_cumulate().show()
-    v.draw_empiric_dist_func().show()
-    v.draw_hist()
+    v.draw_cumulate()\
+        .draw_empiric_dist_func()\
+        .draw_hist()
 
 
 def task5():
@@ -84,9 +76,7 @@ def task5():
         15, 15, 14, 13, 16, 16, 12, 11, 13, 14,
         19, 20, 15, 16, 15, 16, 14, 16, 13, 12
     ]
-    ContinuousVS.PRECISION = 2
-
     v = ContinuousVS(values)
-    v.draw_cumulate().show()
-    v.draw_empiric_dist_func().show()
-    v.draw_hist()
+    v.draw_cumulate()\
+        .draw_empiric_dist_func()\
+        .draw_hist()

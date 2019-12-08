@@ -1,4 +1,4 @@
-from variation_series import ContinuousVS, DiscreteVS
+from varseries import ContinuousVS, DiscreteVS
 
 
 PRECISION = 2
@@ -25,7 +25,6 @@ def task1():
     Найти среднюю выработку рабочих по данным из таблицы (см.
     «Построение вариационного ряда», задание No1), используя формулу
     """
-    ContinuousVS.PRECISION = 2
     v = ContinuousVS(VALUES1)
 
     def prod_gen():
@@ -44,9 +43,8 @@ def task2():
     рабочих по тарифному плану по данным таблицы лабораторной работы
     «Построение вариационного ряда».
     """
-    DiscreteVS.PRECISION = 2
     v = DiscreteVS(VALUES2)
-    print(f'2. Медиана (перпендикуляр): {v.count_median()}')
+    print(f'2. Медиана (перпендикуляр): {v.median}')
 
 
 def task3():
@@ -56,7 +54,7 @@ def task3():
     интервального ряда.
     """
     v = ContinuousVS(VALUES1)
-    print(f'3. Медиана (перпендикуляр): {v.count_median()}')
+    print(f'3. Медиана (перпендикуляр): {v.median}')
 
 
 def task4():
@@ -65,8 +63,8 @@ def task4():
     задания 2 лабораторной работы «Построение вариационного ряда».
     """
     v = DiscreteVS(VALUES2)
-    print(f'4. Мода (пик): {v.count_mode()}')
-    print(f'4. Медиана (перпендикуляр): {v.count_median()}')
+    print(f'4. Мода (пик): {v.mode}')
+    print(f'4. Медиана (перпендикуляр): {v.median}')
 
 
 def task5():
@@ -75,4 +73,4 @@ def task5():
     лабораторной работы «Построение вариационного ряда».
     """
     v = ContinuousVS(VALUES1)
-    print(f'5. Мода (пик): {v.count_mode()}')
+    print(f'5. Мода (пик): {v.mode}')
